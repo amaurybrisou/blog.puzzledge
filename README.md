@@ -1,1 +1,1 @@
-Puzzledge.eu 
+blog.puzzledge.eu 
