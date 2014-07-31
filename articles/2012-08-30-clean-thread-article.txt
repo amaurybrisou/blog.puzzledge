@@ -1,0 +1,33 @@
+{
+   "title" : "Clean Coding Threads !",
+   "date"  : "2012/08/30",
+   "slug"  : "clean-thread-article",
+   "author": "Amaury Brisou"
+}
+
+
+I’m currently reading a book written by Robert C. “Uncle Bob” Martin called “Clean Code”.
+
+As its name indicates, this book deals with coding recommendations and rules in order to enhance your thread code lisibility, maintainability, hence reducing bugs issues.
+
+During my reading, i stumbled upon things i think really matters :
+
+    * Be sure your code is working outside threads
+
+    * SRP (Single Responsability Principle)
+
+    * Avoid using more than one method on a shared object
+
+    * Keep your synchronized sections as small as possible
+
+    * Treat spurious failures as candidate threading issues
+
+    * Run with more threads than processors, especially for testing
+
+    * Think about shut-down
+
+    * Always allow easy thread number tuning
+
+    * Simple tests off-one don’t expose threads flaws
+
+    * Keep method as tiny as possible

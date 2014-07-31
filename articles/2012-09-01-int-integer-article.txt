@@ -1,0 +1,24 @@
+{
+   "title" : "int vs Integer",
+   "date"  : "2012/09/01",
+   "slug"  : "int-integer-article",
+   "author": "Amaury Brisou"
+}
+
+
+
+
+Today, I finally discovered differences between int and Integer. (short/Short, double/Double, float/Float…).
+
+For instance, Class Integer has some special method to work with ints.
+
+Nevertheless, because of immutable characteristic of Integer Wrapper Class,  computational speed is better with int primitive.
+
+Ints are very primitive, as we call them; You can only :
+
+    - calculate with it
+    - pass it as Paramater
+    - return its value
+    - And send it as part of an Object over RMI
+
+forthcoming ( Integer Class Advantages ).

@@ -1,0 +1,152 @@
+{
+   "title" : "Sequelize Transaction",
+   "date"  : "2014/06/29",
+   "slug"  : "sequelize-transaction-article",
+   "author": "Amaury Brisou"
+}
+
+    S.transaction({
+        isolationLevel: "READ COMMITTED",
+        autoCommit: false
+      }, function(t) {
+        log.info('Transaction begin Successfully');
+
+        var word = Word.build({
+          lema: p.lema,
+          pos: p.pos
+        });
+
+        var insertWord = function(){
+          return word.save({lock: "UPDATE",transaction: t});
+        }
+
+        var setLanguageId = function(){
+            
+          return Promise.resolve().then(function(){
+            return Language.find({ where: { language: p.language } }, { transaction: t })
+            .then(function(language){
+              if(language === null) {
+                throw errorHandler.create(20001, 'add.setLanguageId');
+              } else {
+                log.debug('Language Found ' + language.id);
+                return word.setLanguage( language, { lock: "UPDATE", transaction : t });
+              }
+            });
+          });
+        }
+
+        function MyCommit() {
+          this.commit().error(function (err) {
+            if (err) {
+              log.error("Error Committing : ", err);
+              errorHandler.craft(err, 'add.commit');
+              errorHandler.sendError(err, rep);
+              next(err, p);
+            }
+            
+          }).success(function(){
+            log.info("Commit Successfull");
+            p.success = true;
+            rep(p);
+          });
+        }
+
+        function MyRollback(prev_err){
+            this.rollback().error(function (err) {
+                log.error('Error Rollback : ', err);
+                errorHandler.craft(err, 'add.rollback');
+                errorHandler.sendError(err, rep);          
+            }).success(function(){
+              log.warn('Rollback Success');
+              log.warn('Rollback done by database engine because of');
+              log.warn(prev_err);
+              p.success = false;
+              p.rollback = true;
+              errorHandler.sendError(prev_err, rep);
+            });
+        }
+
+
+        return insertWord()
+        .then(function(p){
+          return setLanguageId();
+        })
+        .then(function(){
+          return insertHyperlinks();
+        })
+        .then(function(){
+            MyCommit.call(t);
+          },function(err){
+            MyRollback.call(t, err);
+        });
+      });
+
+
+- - - -
+
+My payload looks like : 
+
+    {
+    	"lema": "word example",
+    	"pos": "prep",
+    	"language": "Spanish",
+    	"hyperlinks: [ "http://puzzledge.eu", ["http://puzzledge.eu/index.html" ]
+    }
+
+and I got those logs for a Successful COMMIT : 
+
+    [2014-06-29 10:20:19.198] [INFO] LeBrisou-Backend-console - [request,info] - 1404030019196-11373-14111 - post - /add - 127.0.0.1:45585 - localhost:8081
+    [2014-06-29 10:20:19.208] [INFO] LeBrisou-Backend-console - Returning already existing DB Connection
+    Executing (a8838bf8-bd58-4e1b-9ed9-b7728be0902e): BEGIN TRANSACTION;
+    Executing (a8838bf8-bd58-4e1b-9ed9-b7728be0902e): PRAGMA read_uncommitted = OFF;
+    Executing (a8838bf8-bd58-4e1b-9ed9-b7728be0902e): -- SQLite does not support SET autocommit.
+    [2014-06-29 10:20:19.211] [INFO] LeBrisou-Backend-console - Transaction begin Successfully
+    Executing (a8838bf8-bd58-4e1b-9ed9-b7728be0902e): INSERT INTO `Words` (`id`,`lema`,`pos`,`createdAt`,`updatedAt`) VALUES (NULL,'Curl','v','2014-06-29 08:20:19','2014-06-29 08:20:19');
+    Executing (a8838bf8-bd58-4e1b-9ed9-b7728be0902e): SELECT * FROM `Languages` WHERE `Languages`.`language`='Spanish' LIMIT 1;
+    [2014-06-29 10:20:19.223] [DEBUG] LeBrisou-Backend-console - Language Found 1
+    Executing (a8838bf8-bd58-4e1b-9ed9-b7728be0902e): UPDATE `Words` SET `LanguageId`=1,`updatedAt`='2014-06-29 08:20:19' WHERE `id`=1
+    Executing (a8838bf8-bd58-4e1b-9ed9-b7728be0902e): COMMIT;
+    [2014-06-29 10:20:19.231] [INFO] LeBrisou-Backend-console - Commit Successfull
+    [2014-06-29 10:20:19.233] [INFO] LeBrisou-Backend-console - [request,info] - 1404030019196-11373-14111 - post - /add - 127.0.0.1:45585 - localhost:8081
+
+
+and I got those logs for a Successful ROLLBACK : 
+
+
+    [2014-06-29 10:21:34.151] [INFO] LeBrisou-Backend-console - [request,info] - 1404030094149-11482-56972 - post - /add - 127.0.0.1:45587 - localhost:8081
+    [2014-06-29 10:21:34.159] [INFO] LeBrisou-Backend-console - Returning already existing DB Connection
+    Executing (80821d72-7753-462c-8baa-cf1711bc82a3): BEGIN TRANSACTION;
+    Executing (80821d72-7753-462c-8baa-cf1711bc82a3): PRAGMA read_uncommitted = OFF;
+    Executing (80821d72-7753-462c-8baa-cf1711bc82a3): -- SQLite does not support SET autocommit.
+    [2014-06-29 10:21:34.162] [INFO] LeBrisou-Backend-console - Transaction begin Successfully
+    Executing (80821d72-7753-462c-8baa-cf1711bc82a3): INSERT INTO `Words` (`id`,`lema`,`pos`,`createdAt`,`updatedAt`) VALUES (NULL,'Curl','v','2014-06-29 08:21:34','2014-06-29 08:21:34');
+    Executing (80821d72-7753-462c-8baa-cf1711bc82a3): SELECT * FROM `Languages` WHERE `Languages`.`language`='Sanish' LIMIT 1;
+    Executing (80821d72-7753-462c-8baa-cf1711bc82a3): ROLLBACK;
+    [2014-06-29 10:21:34.187] [WARN] LeBrisou-Backend-console - Rollback Success
+    [2014-06-29 10:21:34.187] [WARN] LeBrisou-Backend-console - Rollback done by database engine because of
+    [2014-06-29 10:21:34.187] [WARN] LeBrisou-Backend-console - { [Error: Unknow language]
+      errno: 20001,
+      source: 'add.setLanguageId',
+      error: true,
+      created: true }
+    Error: Unknow language
+        at Object.errorHandler.create (/home/erol/nodejs/LeBrisou-Backend/server/errors/index.js:31:15)
+        [....long stack...]
+    [2014-06-29 10:21:34.196] [INFO] LeBrisou-Backend-console - [request,info] - 1404030094149-11482-56972 - post - /add - 127.0.0.1:45587 - localhost:8081
+
+
+So it may be a bit dirty for someone appearing here, what do I read :
+
+First I create Transaction as Usual but into chain sequelize queries with promises. if I call my own function I ensure that it returns a bluebird promise (previously required : Promise = require("bluebird"); of course).
+
+Then notice the chain :
+
+insertWord -> setLanguageId -> insertHyperlinks
+
+in setLanguageId I throw an error if the given language doesn't exists, it's correctly caught in the last 'then' and no Hyperlink is inserted at all, request just stop there. I followed the example given here : https://github.com/sequelize/sequelize/issues/1939 
+
+Don't want to tell stupid things cause I'm not used to bluebird promises but this behaviour doesn't seem to follow the bluebird promises/A+ way : MyPromise.then(MySecondPromise).then(MyThirdPromise).catch().
+
+No catch here, only the last 'then'.
+
+Anyway I hope it can help someone

@@ -1,0 +1,27 @@
+{
+   "title" : "II.I – Hadoop HDFS : Lecture de Fichier",
+   "date"  : "2013/05/08",
+   "slug"  : "hadoop-two-one-article",
+   "author": "Amaury Brisou"
+}
+
+##Comment le HDFS lit-il ?
+
+Le client utilise la méthode open() sur un objet Java FileSystem en précisant (qui dans le cas du HDFS est le DistributedFileSystem) le fichier auquel il veut accéder (i.e log.txt)(1). Le NameNode authentifie d’abord ce dernier (Kerberos, Password…) puis vérifie les permissions du fichier demandé. Si tout est en ordre, le DistributedFileSystem via RPC demande au NameNode l’ID des premiers blocs à lire ainsi que la liste des DataNodes disposant d’une copie de ces blocs (2). Cette liste est triée en fonction de la distance qui sépare chaque DataNode du client. Le DistributedFileSystem renvoie ensuite au client un objet FSDataInputStream et peut ainsi débuter la lecture du fichier via la méthode read() du FSDataInputStream (3).
+
+![Chemin de Lecture sur le HDFS](/images/hdfs_read_easy3.png)
+
+##FSDataInputStream :
+
+`Constructeur : FSDataInputStream(InputStream in)`
+
+L’objet FSDataInputStream qui n’est pas sans évoquer l’objet natif du java InputStream est bel et bien du même type. Il inclut en plus des capacités de lecture de flux, des fonctionnalités de recherche de fichiers et du contrôle des Entrées/Sorties des DataNodes et NameNode.
+
+Il se charge donc d’ouvrir les connections vers les DataNodes et d’établir un flux de lecture continue et abstrait pour le client (4)(5). Il ira aussi récupérer les adresses des blocs suivants sur le NameNode.
+
+Il est bien possible que durant la lecture d’un bloc, la connexion au DataNode ou le processus de copie s’interrompe, auquel cas le FSDataInputStream ira automatiquement rechercher le bloc sur un autre DataNode. Il entretient aussi la liste des DataNodes qui ont généré des erreurs évitant ainsi de les réutiliser.
+
+Une chose importante sur le HDFS est que le client contacte directement les DataNodes. Il est seulement guidé par le NameNode vers le meilleur DataNode pour chaque bloc.
+
+
+[II.II – Hadoop HDFS : Écriture de Fichier](/blog/2013/05/08/hadoop-two-one-article)

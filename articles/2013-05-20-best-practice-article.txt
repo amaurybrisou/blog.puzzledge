@@ -1,0 +1,25 @@
+{
+   "title" : "Bonnes pratiques de coding : General !",
+   "date"  : "2013/05/20",
+   "slug"  : "best-practice-article",
+   "author": "Amaury Brisou"
+}
+
+
+
+
+Je vais commencer une “série” d’articles qui regroupent des règles que je me suis moi même imposées suite à la lecture du livre “Clean Code” de Robert C. “Uncle Bob” Martin.
+
+Puisque c’est le début, faisons d’abord dans le général:
+
+    - Définir & Conserver  une politique de nommage claire, expressive (Packages, Classes, Méthodes, Variables).
+    - Ne jamais se répéter, utiliser du polymorphisme et des design pattern.
+    - Minimiser le nombre de méthodes au sein d’une même classe.
+    - tout comme le nombre de variable dans une méthode.
+    - Éviter d’utiliser trop de variable d’instance.
+    - Bien cacher les variable temporaires et constante afin qu’elle ne viennent pas polluer le code métier.
+    - Tout comme les fonctions Utilitaires.
+    - Éviter d’utiliser ‘protected’ qui traduit le plus souvent un manque d’abstraction dans la conception du programme.
+    - Définir les variable au plus proche de leur utilisation.
+
+A venir, Bonnes pratiques de coding : Fonctions !

@@ -1,0 +1,41 @@
+{
+   "title" : "Les paramètres spéciaux du Bash",
+   "date"  : "2013/05/27",
+   "slug"  : "bash-spec-param-article",
+   "author": "Amaury Brisou"
+}
+
+
+
+
+Les paramètres spéciaux sont des variables réservés :
+
+    * $0 Contient le nom du script tel qu’il a été invoqué
+    * $* L’ensemble des paramètres sous la forme d’un seul argument (séparés par l’IFS)
+    * $@ L’ensemble des arguments, un argument par paramètre
+    * $# Le nombre de paramètres passés au script
+    * $? Le code retour de la dernière commande
+    * $$ Le PID su shell qui exécute le script
+    * $! Le PID du dernier processus lancé en arrière-plan
+
+Les paramètres ‘$*’ et ‘$@’ peuvent paraitres similaires au premier abord mais l’IFS (Internal Field Separator) ainsi les doubles quotes influent dans l’utilisation que l’ont peut en faire. Voici un petit script permettant d’illustrer cela :
+
+	#!/bin/bash
+	OLDIFS=$IFS && IFS=$1 && shift
+	echo "Liste des arguments :"
+	echo "\$@ sans double quotes > "$@ ;
+	echo "\$@ avec double quotes > $@" ;
+	echo "\$* sans double quotes > "$* ;
+	echo "\$* avec double quotes > $*" ;
+	La sortie de ce script nous donne :
+	IFS=$OLDIFS
+
+La sortie de ce script nous donne :
+
+	$./l.sh : b j k l 
+	Liste des arguments :
+	$@ sans double quotes > b j k l
+	$@ avec double quotes > b j k l
+	$* sans double quotes > b j k l
+	$* avec double quotes > b:j:k:l
+

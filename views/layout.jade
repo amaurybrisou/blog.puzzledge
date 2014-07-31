@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/stylesheets/default.css')
+
+    script(src='/javascripts/functions.js')
+    title Blog - #{settings.author}
+
+  body
+    div#header
+      a#word(target='_blank')
+      a#add
+      a#title(href='/') #{settings.sitename} - #{settings.author}
+      a#add
+      div#pres #{settings.pres}
+
+    div#content
+      block content
+        div#container
+          p.footer Created with 
+          a(class='footer', href='https://github.com/davidsivocha/slimnode') slimnode
+      block twits
+        div(id='twits', class='top20')
+      include analytics

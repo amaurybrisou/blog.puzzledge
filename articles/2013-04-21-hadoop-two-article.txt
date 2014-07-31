@@ -1,0 +1,48 @@
+{
+   "title" : "II – Hadoop HDFS : Hadoop Distributed File System – Vue d’ensemble",
+   "date"  : "2013/04/21",
+   "slug"  : "hadoop-two-article",
+   "author": "Amaury Brisou"
+}
+
+Le premier bloc que constitue le package Hadoop est le système de fichier HDFS : Hadoop Distributed File System. (anciennement NDFS : Network Distributed File System).
+Schéma Typique & Glossaire :
+
+##HDFS Typical Topology
+
+![Hadoop architecture](/images/hadooparchi.1-300x86.png)
+
+
+    - Le NameNode est le maitre. Il gère le système de fichier, stockant les méta-données de chaque fichier et répertoire de façon permanente. Il appréhende aussi, cette fois-ci en mémoire, la position de chaque bloc dans le cluster (ces informations sont chargées en mémoire au démarrage.) Il est aussi le OPF (One-Point-Failure) du système. Sans lui le cluster devient inutilisable, il est donc important d’avoir un NameNode résilient (cf SecondaryNameNode).
+    - Les DataNodes sont les esclaves, ils stockent et fournissent les blocs demandés. Ils avertissent régulièrement le NameNode des blocs dont ils disposent sur leurs disques.
+    - Afin d’assurer la sauvegarde des données, il est possible de donner au NameNode plusieurs emplacements où stocker les métas-données du système de fichier. Le SecondaryNameNode, qui en dépit de son nom n’est pas un clone du NameNode, permet de régulièrement mettre à jour une copie de l’image du système de fichier. Par conséquent il consomme beaucoup de CPU et mémoire. Il est donc courant de l’héberger sur un serveur distinct du NameNode.
+
+###Avantages :
+
+HDFS n’est pas le premier système de fichier distribué existant mais il a quelques particularités à noter :
+
+    - il est conçu pour être déployé sur des clusters hétérogènes constitués de machines tout à fait communes (comme vous et moi utilisons.)
+    Très tolérant aux pannes
+    - il améliore considérablement le volume des données instantanées fourni aux applications.
+    - il convient tout particulièrement aux applications ayant de gros volumes de données à traiter.
+    - Il est donc dédié au stockage de gros fichiers, c’est à dire plusieurs centaines de Mégaoctets, Gigaoctets, Téraoctets…
+    - Le HDFS est conscient de la topologie réseau sous-jacente dans laquelle il évolue, il optimise ainsi l’emplacement des blocs.
+
+
+###Inconvénients :
+
+
+    - Puisque les méta-données (~ 150ko / fichier) de chaque bloc présent sur le cluster sont stockées dans la mémoire du NameNode, le HDFS n’est pas dimensionné pour travailler avec des petits fichiers qui viendraient à être beaucoup trop nombreux.
+    - Le HDFS n’est pas rapide en accès lecture & écriture.
+    - Les écritures sont toujours faites à la fin du fichier, il n’y a aucun moyen d’écrire au milieu d’un fichier (pour l’heure peut être mais les performances seraient mauvaises.)
+    - HDFS est un système de fichier en espace utilisateur a contrario des systèmes de fichier directement inclus dans le noyau de systèmes d’exploitation (Ext3,NTFS…). Cette caractéristique ne lui permet pas d’être “monté” à l’égal de l’Ext3 ou du ReiserFs. Il peut cependant l’être grâce à l’outil WebDAV.
+
+##Les Blocs :
+
+Comme tout système de fichier sur un disque unique, le HDFS découpe les fichiers en blocs, habituellement ceux-ci sont de l’ordre de 512 octets ou quelques Ko. Le HDFS a lui une taille de bloc par défaut de 64Mo.
+
+##Pourquoi si gros ?
+
+Souvenez vous que les métas-données (~150Ko par bloc) de chaque bloc sont contenues en mémoire sur le NameNode, une taille de bloc conséquente permet donc de limiter le nombre de structures en mémoire.
+
+[II.I – Hadoop HDFS : Lecture de Fichier](/blog/2013/05/08/hadoop-two-one-article)

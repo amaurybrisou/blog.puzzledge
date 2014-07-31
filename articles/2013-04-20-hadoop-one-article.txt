@@ -1,0 +1,69 @@
+{
+   "title" : "I – Hadoop, première approche",
+   "date"  : "2013/04/20",
+   "slug"  : "hadoop-one-article",
+   "author": "Amaury Brisou"
+}
+
+
+![Hadoop logo](/images/hadoop-logo.jpg)
+
+
+Voici venu le temps de parler d’Hadoop, un outil que j’ai découvert dans mon travail lorsque les données à traiter devenaient trop volumineuses.
+Pour l’anecdote, nous avions 6 jours de traitement sur une machine avec 6 cœurs et 10Go de RAM… sans parler de la pile qui gonflait.
+
+Bref, maintenant et pour une première architecture avec 7 machines telles que la première nous tenons dans 20 heures de traitement grand maximum. 
+
+
+
+##Qui, Quand ?
+
+Hadoop à été mis au point par deux employés de Yahoo, Doug Cutting et Michael J. Cafarella en 2005 afin de supporter la distribution (comprenez distribution des ressources) pour le projet de crawler Nutch. Tous ces projets sont aujourd’hui indépendamment hébergés dans les laboratoires Apache, sans pour autant être décorrélés.
+
+##Que veut dire ce nom ‘Hadoop’ ?
+
+‘Hadoop’ provient du nom de la peluche éléphant du fils de l’initiateur du projet Doug Cutting.
+
+##Qu’est-ce que c’est ?
+
+C’est un framework permettant le développement d’applications mono-thread en vue de les exécuter en parallèle. Plus simplement, il permet au programmeur de s’affranchir des mécanismes complexes liés à la programmation parallèle.
+
+##Quel est son but ?
+
+Traiter de grandes quantités de données; des fichiers de log par exemple.
+
+##Qui l’utilise ?
+
+Yahoo bien sûr utilise Hadoop, mais bien d’autres firmes tels que Facebook, Tweeter, Amazon, etc…Ces firmes ont des architectures démentielles, capitalisant beaucoup plus de 20Po.
+
+    > In 2010 Facebook claimed that they had the largest Hadoop cluster in the world with 21 PB of storage. On July 27, 2011 they announced the data had grown to 30 PB. On June 13, 2012 they announced the data had > grown to 100 PB. On November 8, 2012 they announced the warehouse grows by roughly half a PB per day. (source: Wikipedia).
+
+Cependant, Hadoop ne serait rien sans des projets parallèles tels que Sqoop, Hive, HBase, Pig, Avro, Zookeeper et bien d’autres que je m’efforcerai d’aborder dans des prochains articles.
+
+##Paralléliser ? Mais comment ?
+###Mémoire partagée
+
+Depuis bien des années, on parle de super calculateurs forgeant des multitudes de processeurs entre eux; capitalisant des masse de mémoire vive (RAM) considérables. La mémoire de ces systèmes informatiques est dite ‘partagée’ car celle-ci reste accessible à tous les agents de calcul (les processeurs ou processus, ou encore threads). Le problème reste cependant entier; ils coûtent très cher et leur capacités de calcul sont limitées.
+
+###Mémoire distribuée
+
+La mémoire d’un système informatique est dite ‘distribuée’ lorsqu’elle est répartie en plusieurs nœuds, chaque portion n’étant accessible qu’à certains processeurs. Un réseau de communication relie les différents nœuds, et l’échange de données doit se faire explicitement par « passage de messages ». (source: Wikipedia). Voici donc venir le terme Cluster qui représente justement cette idée.
+
+Hadoop trouve ainsi sont origine dans le concept de mémoire distribuée. S’appuyant sur un système de fichier distribué, il est le framework permettant d’y traiter les données.
+
+##Le package Hadoop
+
+Le package Hadoop comprend un gestionnaire de système de fichier (le HDFS : Hadoop Distributed File System). Il Inclut aussi Hadoop Yarn et enfin Hadoop MapReduce développé par Jeffrey Dean et Sanjay Ghemahat..
+
+Tous ces projets sont en constante évolution; Hadoop inclut le HDFS mais peut aussi s’exécuter sur d’autres systèmes de fichier distribués (MapR par exemple). Actuellement Hadoop n’inclut que MapReduce (basé sur Yarn) dans ses modèles de programmation, mais bientôt nous pourrons élargir l’éventail des possibilités ! Ainsi Yarn permettra aux développeurs d’Hadoop d’ajouter des méthodes de programmation qui pourront mieux s’adapter aux divers besoins (graphes…). MapReduce est un modèle de programmation par lot (Batch) qui ne permet pas de traiter des flux.
+
+##Hadoop en fonction
+
+Hadoop nous permet donc de développer des programmes en JAVA de type MapReduce (pour l’instant). Une fois notre code écrit, il suffit de le lancer dans Hadoop pour que ce dernier se charge de tout le reste :
+
+    - Interroger le HDFS qui met a disposition les données (quelque soit leur type : SequenceFiles, Database, Text Files, NoSQL…).
+    - Appeler l’ordonnanceur des tâches au sein du Cluster.
+
+Hadoop ne fournit que les classes à exécuter sur les différentes machines que constituent le cluster.
+
+[II – Hadoop HDFS :  Hadoop Distributed File System](/blog/2013/04/21/hadoop-two-article)

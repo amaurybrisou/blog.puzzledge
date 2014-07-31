@@ -1,0 +1,31 @@
+{
+   "title" : "Là où \"clamer\" m'ammène!",
+   "date"  : "2014/07/11",
+   "slug"  : "clamer-article",
+   "author": "Amaury Brisou"
+}
+
+
+Je lis en ce moment un livre de Kevin Mitnick : "Ghost in the wires" dans lequel il raconte sa vie de phreaker, hacker et fugitif dès la fin des années 1970.
+
+Arrivé au troisième chapitre, je lis le mot "clamor", jusque là rien d'incompréhensible. Cependant j'ai voulu en savoir plus sur l'éthymologie du verbe "clamer".
+
+Je vais vous épargner tous les détails de ma quête, cependant j'ai été très étonné de voir le nombre de mot qui découlait de cette racine latine "calo" (convoquer, appeler). 
+
+
+####Nomenclatura
+
+Une transposition s'est faite avec le temps et sous l'influence du grec ancien, allant donc de "cal" vers "cla", sans vraiment changer le sens. "Nomen" (nom) - "cla" (convoquer, appeler) - "ura" (marque du féminin). 
+
+Mes perégrination m'amènent à lire :
+
+>Le sens premier était sans doute militaire et signifiait « appel nominal (des soldats) ».
+
+
+Et nous voilà enfin conscient du pourquoi !
+
+
+[clamer](http://fr.wiktionary.org/wiki/clamer)  
+[nomenclatura](http://fr.wiktionary.org/wiki/nomenclatura)  
+[calo](http://fr.wiktionary.org/wiki/calo)  
+  

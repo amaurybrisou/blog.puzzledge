@@ -1,0 +1,47 @@
+{
+   "title" : "II.II – Hadoop HDFS : Écriture de Fichier",
+   "date"  : "2013/05/16",
+   "slug"  : "hadoop-two-two-article",
+   "author": "Amaury Brisou"
+}
+
+
+##Comment Hadoop écrit-il ?
+
+Pour illustrer l’écriture sur le HDFS, nous allons simuler la création d’un fichier (i.e log.txt).
+
+Tout comme la lecture de fichier le client utilise cette fois la méthode create() de l’objet FileSystem (1). Après le processus d’authentification, le FileSystem fait un appel RPC demandant au NameNode de créer le fichier log.txt. Ce dernier fait plusieurs vérifications, par exemple :
+
+- Le fichier existe-il déjà ?
+- L’utilisateur a-t-il les droits suffisants ?
+
+Si les vérifications sont fructueuses, le NameNode crée un fichier sans aucun bloc associé et renvoie au client un flux d’écriture : FSDataOutputStream (2).
+
+![Chemin d’écriture sur le HDFS](/images/hdfs_write_easy.png)
+
+##FSDataOutputStream :
+
+Tout comme la lecture, le FSDataOutputStream est une classe étendue de DFSOutputStream chargée de la communication entre les DataNodes et le NameNode.
+
+Tandis que le client commence à écrire dans le flux via la méthode write() (3), Le DFSOutputStream entretient une file d’attente des données qu’il découpe en paquets (pas des blocs), prêts à être écrit sur les DataNodes.
+
+La file d’attente est traitée par le DataStreamer qui s’occupe de demander au NameNode une liste des meilleurs DataNodes où écrire (4).
+
+Alors que le premier paquet à écrire est émis (par le DataStreamer) sur le premier DataNode (5), ce dernier le transmet déjà à un autre DataNode et ainsi de suite en fonction du nombre de réplications configuré. Chaque DataNode envoie un accusé de réception au dernier DataNodes qui lui a envoyé le paquet à écrire(6).
+
+Le DFSOutputStream entretient une seconde file d’attente des paquets en attente d’accusé de réception (ack queue), un paquet n’est supprimé de cette file d’attente que lorsque la chaîne d’écriture s’est correctement déroulée.
+
+Si une erreur survient durant l’écriture des données:
+
+- la chaîne est fermée.
+- les paquets concernés sont ajoutés au dessus de la file d’attente (ack queue).
+- le bloc en erreur est marqué est le NameNode est averti (ainsi le NameNode pourra notifié au DataNode fautif, lorsqu’il sera de nouveau utilisable quel bloc supprimer, évitant ainsi toute corruption du - système de fichier).
+- le DataNode fautif est exclu des chaînes futur.
+- enfin le reste des données est traité.
+
+Par conséquent il manque un reliquat de ce bloc, le NameNode en est conscient et marque le bloc “en cours de réplication” afin qu’il soit réécrit du un DataNode plus tard.
+
+Si plusieurs DataNodes génèrent des erreurs, l’API est configurée via le paramètre dfs.replication.min afin de s’assurer qu’il y a au moins x blocs répliqués (par défaut 1).
+
+Enfin le client utilise la méthode close() sur le flux DFSOutputStream.
+

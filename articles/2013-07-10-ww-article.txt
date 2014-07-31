@@ -1,0 +1,27 @@
+{
+   "title" : "WW : Bientôt quelque ‘Helpers’ pour les Web Workers ?",
+   "date"  : "2013/07/10",
+   "slug"  : "ww-article",
+   "author": "Amaury Brisou"
+}
+
+
+
+En ce moment je développe un jeu en WebGL; donc en Javascript.
+
+Voilà un mois et demi que j’ai débuté. et je suis dans la physique du jeu.
+
+C’est pourquoi je me suis penché sur les Web Workers.
+
+Je ne vais pas détailler ici ce que sont les Web Workers mais reste à comprendre
+que je trouve le concept facile à appréhender et pour autant l’implémentation un peu plus lourde ( bien que pas si sorcière ).
+
+Je ne suis pas encore très sur de la pertinence du projet, déja 1 semaine de tests/benchmark et les résultats sont sympathique. J’en attends plus !
+
+Voici à la raison qui me pousse à développer une librairie JavaScript dédiée au Web Workers : WW.
+
+voici le lien vers le github : [https://github.com/amaurybrisou/WW](https://github.com/amaurybrisou/WW)
+
+et un vers quelques démos et benchmarks : [ww.puzzledge.eu](http://ww.puzzledge.eu)
+
+n’hésitez surtout pas à me faire parvenir vos idée et besoin éventuellement.

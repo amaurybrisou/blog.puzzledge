@@ -1,0 +1,19 @@
+{
+   "title" : "Change files extensions recursively and massively",
+   "date"  : "2012/08/22",
+   "slug"  : "filename-change-article",
+   "author": "Amaury Brisou"
+}
+
+
+
+Hey, I don’t have much time this morning.  Nevertheless I wanted to let this site not as empty as a basic WordPress Website.
+
+Here is juste a sample script to change files extensions, for instance png to jpg.
+
+    #!/bin/bash
+
+    for f in $(find . -iregex .*\.png);
+    do
+        mv "$f" "${f%.png}.jpg"
+    done
