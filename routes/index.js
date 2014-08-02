@@ -57,9 +57,9 @@ routes = [{
   method: "GET",
   handler: controllers.index
 }, {
-  path: "/add",
+  path: "/rss",
   method: "GET",
-  handler: controllers.add
+  handler: controllers.rss
 }, {
   path: "/page/{page}",
   method: "GET",

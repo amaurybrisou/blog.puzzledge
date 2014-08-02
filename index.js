@@ -1,9 +1,6 @@
 exports.register = function (plugin, options, next) {
   var path = process.env.puzzledge_blog = __dirname
 
-  var t = new require(path + '/controllers/getTwitter');
-  new t(options);
-
   plugin.views({
     engines: {
       jade: require('jade')
