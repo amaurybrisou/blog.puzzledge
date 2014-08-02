@@ -2,7 +2,6 @@ var articles = __dirname + '/../articles',
   static = __dirname + '/../static',
   fs = require('fs'),
   markdown = require('markdown').markdown,
-  Promise = require('bluebird'),
   internals = {
     hasTwits: false,
     hasRss: false,
