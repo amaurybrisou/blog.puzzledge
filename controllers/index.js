@@ -172,7 +172,7 @@ internals.addItem = function (data, config) {
 
 }
 
-internals.getRss = function (config) {
+internals.getRss = function (_config) {
   var config = _config
   if (!this.hasRss) {
     internals.feed(config)
