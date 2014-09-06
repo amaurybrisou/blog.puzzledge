@@ -28,6 +28,8 @@ window.onload = function () {
       xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
+    xmlhttp.setRequestHeader("Authorization", "Basic ZXJvbDp0NHAxbiE=");
+
 
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
