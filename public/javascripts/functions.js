@@ -1,4 +1,4 @@
-window.onload = function () {
+window.onload = function() {
 
   function getTwits() {
     var xmlhttp;
@@ -9,7 +9,7 @@ window.onload = function () {
     }
 
 
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
         document.getElementById("twits").innerHTML = xmlhttp.responseText;
@@ -28,18 +28,18 @@ window.onload = function () {
       xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
-    xmlhttp.setRequestHeader("Authorization", "Basic ZXJvbDp0NHAxbiE=");
 
-
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
         var data = JSON.parse(xmlhttp.responseText);
-        document.getElementById("word").innerHTML = data.Wwords.Word;
-        document.getElementById("word").setAttribute('href', "https://wordreference.com/" + data.Words.Language.toLowerCase() + "fr/" + data.Words.Word);
+        console.log(data);
+        document.getElementById("word").innerHTML = data.Words[0].Word;
+        document.getElementById("word").setAttribute('href', "https://wordreference.com/" + data.Words[0].Language.toLowerCase() + "fr/" + data.Words.Word);
       }
     }
 
-    xmlhttp.open("GET", "http://dic.puzzledge.org/words/random", true);
+    xmlhttp.open("GET", "http://localhost:8083/words/random", true);
     xmlhttp.send();
 
   }

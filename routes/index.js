@@ -53,6 +53,10 @@ routes = [{
   method: 'GET',
   handler: controllers.index,
 }, {
+  path: '/words/random',
+  method: 'GET',
+  handler: controllers.getWord,
+}, {
   path: "/blog",
   method: "GET",
   handler: controllers.index
