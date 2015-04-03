@@ -39,7 +39,7 @@ window.onload = function() {
       }
     }
 
-    xmlhttp.open("GET", "http://blog.puzzledge.org/words/random", true);
+    xmlhttp.open("GET", "http://puzzledge.org/words/random", true);
     xmlhttp.send();
 
   }
