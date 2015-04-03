@@ -194,7 +194,7 @@ exports.getWord = function(req, res) {
     config = config
   http.get({
     host: 'localhost',
-    port: 8080,
+    port: 8082,
     path: '/words/random',
   }, function(r) {
     var body = ""
