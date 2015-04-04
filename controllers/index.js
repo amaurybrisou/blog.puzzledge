@@ -193,7 +193,7 @@ exports.getWord = function(req, res) {
   var http = require('http'),
     config = this.config
   http.get({
-    host: 'dic.puzzledge.org'
+    host: 'dic.puzzledge.org',
     path: '/words/random',
   }, function(r) {
     var body = ""
