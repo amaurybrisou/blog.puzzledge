@@ -191,10 +191,9 @@ internals.getRss = function(_config) {
 
 exports.getWord = function(req, res) {
   var http = require('http'),
-    config = config
+    config = this.config
   http.get({
-    host: 'localhost',
-    port: 8082,
+    host: 'dic.puzzledge.org'
     path: '/words/random',
   }, function(r) {
     var body = ""

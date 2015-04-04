@@ -33,13 +33,25 @@ window.onload = function() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
         var data = JSON.parse(xmlhttp.responseText);
-        console.log(data);
-        document.getElementById("word").innerHTML = data.Words[0].Word;
-        document.getElementById("word").setAttribute('href', "https://wordreference.com/" + data.Words[0].Language.toLowerCase() + "fr/" + data.Words.Word);
+
+        if (data.Words != undefined) {
+
+          $("#word").html(data.Words[0].Word);
+          $("#word").attr('href', "https://wordreference.com/" + data.Words[0].Language.toLowerCase() + "fr/" + data.Words[0].Word);
+          $('#word').attr('title', data.Words[0].Pos + ', ' + data.Words[0].Definition);
+          $("#word").tooltip({
+            tooltipClass: 'word_tooltip',
+            position: {
+              my: "left center",
+              at: "left bottom+10",
+
+            }
+          });
+        }
       }
     }
 
-    xmlhttp.open("GET", "http://puzzledge.org/words/random", true);
+    xmlhttp.open("GET", "http://localhost:8083/words/random", true);
     xmlhttp.send();
 
   }

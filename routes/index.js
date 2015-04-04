@@ -9,6 +9,16 @@ routes = [{
   path: '/{p*}',
   handler: controllers.notFound
 }, {
+  path: "/stylesheets/images/{path?}",
+  method: "GET",
+  handler: {
+    directory: {
+      path: path + "/public/stylesheets/images",
+      listing: false,
+      index: false
+    }
+  }
+}, {
   path: "/stylesheets/{path?}",
   method: "GET",
   handler: {
