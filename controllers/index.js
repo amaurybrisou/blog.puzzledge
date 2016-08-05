@@ -190,20 +190,23 @@ internals.getRss = function(_config) {
 }
 
 exports.getWord = function(req, res) {
-  var http = require('http'),
+  var https = require('https'),
     config = this.config
-  http.get({
+  https.get({
     host: 'dic.puzzledge.org',
     path: '/words/random',
+    headers: {
+      'Accept': 'application/json'
+    }
   }, function(r) {
     var body = ""
     r.setEncoding('utf8');
     r.on('data', function(chunk) {
       body += chunk
     })
-      .on('end', function() {
-        res(body).type('text/json')
-      })
+    .on('end', function() {
+      res(body).type('text/json')
+    })
   })
 }
 

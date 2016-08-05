@@ -18,7 +18,7 @@ exports.register = function (plugin, options, next) {
 }
 
 exports.register.attributes = {
-  name: 'blog.puzzledge.eu',
+  name: 'blog.puzzledge.org',
   version: '0.0.1',
   pkg: require('./package.json')
 }
