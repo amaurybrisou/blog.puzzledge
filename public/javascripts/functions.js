@@ -37,7 +37,7 @@ window.onload = function() {
         if (data.Words != undefined) {
 
           $("#word").html(data.Words[0].Word);
-          $("#word").attr('href', "https://wordreference.com/" + data.Words[0].Language.toLowerCase() + "fr/" + data.Words[0].Word);
+          $("#word").attr('href', "http://www.merriam-webster.com/dictionary/" + data.Words[0].Language.toLowerCase() + "fr/" + data.Words[0].Word);
           $('#word').attr('title', data.Words[0].Pos + ', ' + data.Words[0].Definition);
           $("#word").tooltip({
             tooltipClass: 'word_tooltip',
