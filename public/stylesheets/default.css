@@ -166,3 +166,48 @@ a:active, a:focus, a:visited, a {
   font-size: 0.7em;
   outline: none;
 }
+
+::-webkit-scrollbar {                 /* Scrollbars */
+  width: 14px;
+  height: 14px;
+  background: #b2b5b7 0 0 repeat;
+}
+
+
+::-webkit-scrollbar-corner {              /* Coin de la fenêtre */
+  background: #bfb6a3 url(images/bg-blog-repeat.png) 0 0 no-repeat;
+}
+
+::-webkit-scrollbar-thumb {               /* Barre */
+  border: solid 0 transparent;
+  border-right-width: 4px;
+  -webkit-border-radius: 5px;
+  -webkit-border-top-right-radius: 9px 5px;
+  -webkit-border-bottom-right-radius: 9px 5px;
+  -webkit-box-shadow: inset 0 0 0 1px #e89867, inset 0 0 0 6px #e89867;
+}
+::-webkit-scrollbar-thumb:hover {           /* Barre */
+  -webkit-box-shadow: inset 0 0 0 1px #e3872e, inset 0 0 0 6px #e3872e;
+}
+::-webkit-scrollbar-thumb:horizontal {          /* Barre du bas */
+  border-right-width: 0;
+  border-bottom-width: 4px;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px 9px;
+  -webkit-border-bottom-left-radius: 5px 9px;
+}
+
+::-webkit-scrollbar-button {              /* Boutons */
+  height: 26px;
+  background: url(../images/list.png) 1px 50% no-repeat, #b2b5b7 0 0 no-repeat;
+}
+::-webkit-scrollbar-button:increment {          /* Bouton pour descendre */
+  background-position: -0px 50%;
+}
+::-webkit-scrollbar-button:horizontal {         /* Boutons horizontaux */
+  width: 26px;
+  background: url(../images/list.png) 50% 1px no-repeat, #b2b5b7 0 0 no-repeat;
+}
+::-webkit-scrollbar-button:horizontal:increment {   /* Bouton pour aller à droite */
+  background-position: 50% -19px;
+}
