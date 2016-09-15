@@ -180,7 +180,8 @@ a:active, a:focus, a:visited, a {
 
 ::-webkit-scrollbar-thumb {               /* Barre */
   border: solid 0 transparent;
-  border-right-width: 4px;
+  border-left-width: 2px;
+  border-right-width: 2px;
   -webkit-border-radius: 5px;
   -webkit-border-top-right-radius: 9px 5px;
   -webkit-border-bottom-right-radius: 9px 5px;
