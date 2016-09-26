@@ -45,6 +45,10 @@ h1, h2, h3, title, a,  h4, h5, .span4 li, .span4 p, .btn, #add, #title, #pres, #
   font-weight: 400;
 }
 
+a {
+  font-size: 16px;
+}
+
 p, li {
   font-size: 0.90em;
   letter-spacing: 1px;
