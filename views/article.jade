@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  div.span8
+  article.span8
     h1= title
     != body
   div.span4
     p
       a(href='/').btn Back to Article list
-      script.
-        var HC_comment_box_theme = "default";
-        var HC_comment_box_server = "#{settings.url}";
-      script(src="#{settings.url}/comments/js/comment_box_code.js")
+      //- script.
+      //-   var HC_comment_box_theme = "default";
+      //-   var HC_comment_box_server = "#{settings.url}";
+      //- script(src="#{settings.url}/comments/js/comment_box_code.js")

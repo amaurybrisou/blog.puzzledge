@@ -19,6 +19,16 @@ routes = [{
     }
   }
 }, {
+  path: "/font/{path?}",
+  method: "GET",
+  handler: {
+    directory: {
+      path: path + "/public/font/Office-Code-Pro/Fonts/OfficeCodePro/WOFF/",
+      listing: false,
+      index: false
+    }
+  }
+}, {
   path: "/stylesheets/{path?}",
   method: "GET",
   handler: {

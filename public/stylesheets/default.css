@@ -1,7 +1,13 @@
+@font-face {
+  font-family: 'office-code-pro';
+  src: url(/font/OfficeCodePro-Regular.woff);
+}
 
 body, html {
   color: #333333;
-  font-family: "Tahoma", "Corbel", "Arial", "Helvetica", sans-serif;
+  font-family: "office-code-pro";
+  font-size: 16px;
+  font-weight: 400;
   font-size: 100%;
   line-height: 1.6em;
   margin: 0px;
@@ -33,8 +39,10 @@ body pre  {
 
 h1, h2, h3, title, a,  h4, h5, .span4 li, .span4 p, .btn, #add, #title, #pres, #rss, .twit  {
   color: black;
-  font-family: "PT Sans", "American Typewriter", "Courier New", "Courier", serif;
-  font-weight: normal;
+  /*font-family: "PT Sans", "American Typewriter", "Courier New", "Courier", serif;*/
+  font-family: "office-code-pro";
+  font-size: 16px;
+  font-weight: 400;
 }
 
 p, li {
